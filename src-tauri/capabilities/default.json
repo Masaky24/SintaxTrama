@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Solo la ventana local puede acceder a las operaciones del editor.",
+  "windows": ["main"],
+  "permissions": ["core:window:allow-destroy", "core:window:allow-close", "core:window:allow-minimize", "core:window:allow-toggle-maximize", "core:window:allow-start-dragging", "core:event:default", "editor-commands"]
+}
