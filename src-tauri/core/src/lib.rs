@@ -72,6 +72,22 @@ fn path_key(path: &Path) -> String {
 #[cfg(not(windows))]
 fn path_key(path: &Path) -> PathBuf { path.to_path_buf() }
 fn same_path(left: &Path, right: &Path) -> bool { path_key(left) == path_key(right) }
+
+// A deleted root cannot be canonicalized, but its surviving ancestor can still
+// resolve Windows short names and aliases used by the original folder dialog.
+fn root_removal_path(path: &Path) -> PathBuf {
+    let mut ancestor = path;
+    let mut suffix = Vec::new();
+    loop {
+        if let Ok(mut resolved) = fs::canonicalize(ancestor) {
+            for name in suffix.into_iter().rev() { resolved.push(name); }
+            return resolved;
+        }
+        let (Some(name), Some(parent)) = (ancestor.file_name(), ancestor.parent()) else { return path.to_path_buf(); };
+        suffix.push(name.to_os_string());
+        ancestor = parent;
+    }
+}
 fn valid_note_index(index: &NoteIndex) -> bool {
     if index.version != 1 { return false; }
     let mut ids = HashSet::new(); let mut paths = HashSet::new(); let mut files = HashSet::new();
@@ -413,7 +429,7 @@ impl Workspace {
     }
     pub fn folders(&self) -> Vec<PathBuf> { self.roots.clone() }
     pub fn remove_root(&mut self, path: &Path) -> Result<(), String> {
-        let canonical = fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
+        let canonical = root_removal_path(path);
         let mut roots = self.roots.clone(); roots.retain(|p| !same_path(p, &canonical));
         storage::atomic_private(&self.data.join("folders.json"), &serde_json::to_vec(&roots).map_err(|e| e.to_string())?)?;
         self.roots = roots; Ok(())
