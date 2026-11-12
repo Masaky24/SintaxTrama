@@ -1,0 +1,43 @@
+{
+  "name": "pliegra",
+  "private": true,
+  "version": "0.1.6",
+  "description": "Editor local de Markdown y texto para Windows, con vistas técnica y de escritura y recuperación protegida.",
+  "license": "MIT",
+  "author": "G9C_Studios",
+  "repository": { "type": "git", "url": "https://github.com/Masaky24/SintaxTrama.git" },
+  "homepage": "https://github.com/Masaky24/SintaxTrama",
+  "bugs": { "url": "https://github.com/Masaky24/SintaxTrama/issues" },
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "node tools/build.mjs",
+    "test": "vitest run",
+    "test:ui": "playwright test",
+    "tauri": "tauri",
+    "test:rust": "cargo test --manifest-path src-tauri/core/Cargo.toml",
+    "test:installer": "node tools/test-installer.mjs"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.10.0",
+    "@codemirror/lang-markdown": "^6.5.0",
+    "@codemirror/language": "^6.11.0",
+    "@codemirror/search": "^6.5.0",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.38.0",
+    "@lezer/highlight": "^1.2.0",
+    "@tauri-apps/api": "^2.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@tauri-apps/cli": "^2.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.0.0",
+    "vitest": "^5.1.0"
+  }
+}
