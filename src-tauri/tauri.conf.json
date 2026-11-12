@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SintaxTrama",
+  "version": "0.1.6",
+  "identifier": "local.esteban.linde",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "SintaxTrama",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 540,
+        "decorations": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src ipc: http://ipc.localhost; object-src 'none'; frame-src 'none'; base-uri 'none'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "copyright": "G9C_Studios",
+    "publisher": "G9C_Studios",
+    "resources": {
+      "../LICENSE": "licenses/LICENSE.txt",
+      "../THIRD_PARTY_NOTICES.md": "licenses/THIRD_PARTY_NOTICES.md"
+    },
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": {
+        "template": "./windows/installer.nsi",
+        "installMode": "currentUser",
+        "installerHooks": "./windows/hooks.nsh",
+        "languages": [
+          "Spanish"
+        ]
+      },
+      "webviewInstallMode": {
+        "type": "skip"
+      }
+    }
+  }
+}
