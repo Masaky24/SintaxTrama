@@ -1,0 +1,7 @@
+[package]
+name = "linde-native-tools-check"
+version = "0.0.0"
+edition = "2021"
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_Globalization", "Win32_System_Com", "Win32_Graphics_DirectWrite"] }
