@@ -3,6 +3,19 @@ use std::fs;
 use tempfile::tempdir;
 
 #[test]
+fn removing_a_deleted_root_resolves_its_existing_parent_alias() {
+    let dir = tempdir().unwrap();
+    fs::create_dir(dir.path().join("seleccion")).unwrap();
+    let selected = dir.path().join("seleccion").join("..").join("carpeta");
+    fs::create_dir(&selected).unwrap();
+    let mut workspace = Workspace::new(dir.path().join("data")).unwrap();
+    workspace.set_root(selected.clone()).unwrap();
+    fs::remove_dir(&selected).unwrap();
+    workspace.remove_root(&selected).unwrap();
+    assert!(workspace.folders().is_empty());
+}
+
+#[test]
 fn opening_a_renamed_active_document_keeps_one_session_and_its_pending_text() {
     let dir = tempdir().unwrap();
     let data = dir.path().join("data");
