@@ -12,8 +12,8 @@ const source = readFileSync(new URL('../src-tauri/windows/hooks.nsh', import.met
 // Use the production control flow with only registry namespaces redirected.
 const isolated = source.replaceAll('Software\\', registryRoot + '\\');
 const hooks = join(folder, 'hooks.nsh'); writeFileSync(hooks, isolated);
-const own = `'"$INSTDIR\\pliegra.exe" "%1"'`;
-const foreign = `'"C:\\OtherInstallation\\pliegra.exe" "%1"'`;
+const own = `'"$INSTDIR\\SintaxTrama.exe" "%1"'`;
+const foreign = `'"C:\\OtherInstallation\\SintaxTrama.exe" "%1"'`;
 const logicIf = '$' + '{If}', logicEndIf = '$' + '{EndIf}';
 try {
   for (const ownedApplication of [false, true]) {
@@ -21,6 +21,7 @@ try {
     const exe = join(folder, 'test.exe');
     writeFileSync(file, `Unicode true
 !include LogicLib.nsh
+!define MAINBINARYNAME "SintaxTrama"
 !include "${hooks}"
 Name "SintaxTrama isolated association test"
 OutFile "${exe}"
@@ -28,7 +29,7 @@ RequestExecutionLevel user
 SilentInstall silent
 Section
   StrCpy $INSTDIR "$TEMP\\SintaxTramaOwnedInstallation"
-  WriteRegStr HKCU "${registryRoot}\\Classes\\Applications\\pliegra.exe\\shell\\open\\command" "" ${ownedApplication ? own : foreign}
+  WriteRegStr HKCU "${registryRoot}\\Classes\\Applications\\SintaxTrama.exe\\shell\\open\\command" "" ${ownedApplication ? own : foreign}
   WriteRegStr HKCU "${registryRoot}\\Classes\\Pliegra.Markdown\\shell\\open\\command" "" ${own}
   WriteRegStr HKCU "${registryRoot}\\Classes\\Linde.Markdown\\shell\\open\\command" "" ${foreign}
   WriteRegStr HKCU "${registryRoot}\\Classes\\.md\\OpenWithProgids" "Pliegra.Markdown" "test"
