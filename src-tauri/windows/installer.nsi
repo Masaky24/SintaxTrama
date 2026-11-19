@@ -54,6 +54,7 @@ ${StrLoc}
 !define UNINSTALLERICON "{{uninstaller_icon}}"
 !define UNINSTALLERHEADERIMAGE "{{uninstaller_header_image}}"
 !define MAINBINARYNAME "{{main_binary_name}}"
+!define PREVIOUS_EXE "pliegra.exe"
 !define MAINBINARYSRCPATH "{{main_binary_path}}"
 !define BUNDLEID "{{bundle_id}}"
 !define COPYRIGHT "{{copyright}}"
@@ -693,6 +694,27 @@ Section Install
 
   !insertmacro CheckIfAppIsRunning "$INSTDIR\${MAINBINARYNAME}.exe" "${PRODUCTNAME}"
 
+  ; Refuse to migrate a running legacy binary without closing the editor.
+  ReadRegStr $OldMainBinaryName SHCTX "${UNINSTKEY}" "MainBinaryName"
+  ${If} $OldMainBinaryName == "${PREVIOUS_EXE}"
+  ${AndIf} ${FileExists} "$INSTDIR\${PREVIOUS_EXE}"
+    StrCpy $R2 1
+    !insertmacro RestartManager_StartSession $R0
+    ${If} $R0 != ""
+      !insertmacro RestartManager_RegisterFile $R0 "$INSTDIR\${PREVIOUS_EXE}"
+      ${If} $0 = 0
+        System::Call 'RSTRTMGR::RmGetList(i R0, *i .r1, *i .r2, p 0, *i .r3) i .r0'
+      ${EndIf}
+      StrCpy $R2 $0
+      !insertmacro RestartManager_EndSession $R0
+    ${EndIf}
+    ${If} $R2 != 0
+      MessageBox MB_ICONSTOP|MB_OK "Cierra SintaxTrama antes de actualizar y vuelve a ejecutar el instalador." /SD IDOK
+      SetErrorLevel 1
+      Abort
+    ${EndIf}
+  ${EndIf}
+
   ; Copy main executable
   File "${MAINBINARYSRCPATH}"
 
@@ -736,11 +758,17 @@ Section Install
     WriteRegStr SHCTX "${UNINSTKEY}" $MultiUser.InstallMode 1
   !endif
 
-  ; Remove old main binary if it doesn't match new main binary name
+  ; Retire only the executable owned by the previous installation.
   ReadRegStr $OldMainBinaryName SHCTX "${UNINSTKEY}" "MainBinaryName"
-  ${If} $OldMainBinaryName != ""
-  ${AndIf} $OldMainBinaryName != "${MAINBINARYNAME}.exe"
-    Delete "$INSTDIR\$OldMainBinaryName"
+  ${If} $OldMainBinaryName == "${PREVIOUS_EXE}"
+  ${AndIf} ${FileExists} "$INSTDIR\${PREVIOUS_EXE}"
+    ClearErrors
+    Delete "$INSTDIR\${PREVIOUS_EXE}"
+    ${If} ${Errors}
+      MessageBox MB_ICONSTOP|MB_OK "No se pudo sustituir el ejecutable anterior. Cierra SintaxTrama y vuelve a ejecutar el instalador." /SD IDOK
+      SetErrorLevel 1
+      Abort
+    ${EndIf}
   ${EndIf}
 
   ; Save current MAINBINARYNAME for future updates
