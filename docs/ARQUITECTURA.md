@@ -44,6 +44,6 @@ CSP local/IPC, sin shell ni filesystem genérico expuesto al frontend. Se valida
 
 La plantilla NSIS está fijada a Tauri CLI 2.12.4 con claves y directorio internos Pliegra, separados del nombre visible SintaxTrama. Detecta la instalación existente y reutiliza su ubicación. Los hooks no cambian UserChoice y solo retiran asociaciones cuyo comando pertenece a su instalación. Revisar esta plantilla al actualizar la CLI.
 
-Se mantienen `local.esteban.linde` y `pliegra.exe`; G9C_Studios figura en copyright/autoría. Datos nativos y preferencias WebView conservan su ubicación. Licencias propias y de terceros se instalan bajo `licenses/`. La licencia del producto es MIT.
+Desde 0.1.7, Cargo genera `SintaxTrama.exe` y el instalador migra las referencias de Windows al nuevo ejecutable. `local.esteban.linde` sigue identificando los datos nativos y preferencias WebView. G9C_Studios figura en copyright y autoría. Las licencias se instalan bajo `licenses/`.
 
 Los datos locales no tienen cifrado propio. No se garantiza funcionamiento idéntico en unidades remotas, sincronizadores, ante todos los cortes eléctricos o con un proveedor COM bloqueado. Ver pruebas y límites en los documentos de la entrega.

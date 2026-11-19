@@ -7,13 +7,13 @@ Fecha: 12 de noviembre de 2026. Actualización del proyecto existente 0.1.5, eje
 | Comprobación | Resultado |
 |---|---|
 | npm test | 56 pruebas, 7 archivos, salida 0 |
-| cargo test --manifest-path src-tauri/core/Cargo.toml | 57 pruebas: 4 unidad, 24 integridad, 7 exportación, 3 regresiones finales, 19 estabilidad; salida 0 |
+| cargo test --manifest-path src-tauri/core/Cargo.toml | 58 pruebas: 4 unidad, 24 integridad, 7 exportación, 4 regresiones finales, 19 estabilidad; salida 0 |
 | cargo test --manifest-path tools/native-tests/Cargo.toml | 4 pruebas de servicios Windows reales; salida 0 |
 | npm run test:ui | 24 pruebas React/CodeMirror en Edge; salida 0, 48,6 segundos |
 | npm run test:installer | 2 comprobaciones NSIS compiladas y ejecutadas en registro aislado; salida 0 |
 | Construcción Tauri de producción | Salida 0; ejecutable e instalador NSIS x64 generados |
 
-**141 pruebas de aplicación más 2 comprobaciones de instalador: 143 aprobadas.** Las pruebas de interfaz usan un puente de archivos simulado; no prueban por sí mismas diálogos nativos ni escritura del ejecutable instalado. El núcleo usa archivos temporales reales y fallos controlados. Los servicios Windows usan COM/DirectWrite reales.
+**142 pruebas de aplicación más 2 comprobaciones de instalador: 144 aprobadas.** Las pruebas de interfaz usan un puente de archivos simulado; no prueban por sí mismas diálogos nativos ni escritura del ejecutable instalado. El núcleo usa archivos temporales reales y fallos controlados. Los servicios Windows usan COM/DirectWrite reales.
 
 ## Recorrido nativo ejecutado
 
@@ -40,3 +40,8 @@ La revisión independiente inicial y sus fallos se conservan como antecedentes l
 Se verificaron con pruebas: sustitución temporal segura, detección de cambios externos y carreras al reemplazar, retención de versiones desplazadas, recuperación rotativa/fallback corrupto/bloqueos, errores posteriores al guardado, migración de notas, Guardar como con identidad separada, exportación estructurada sin alterar el original, historial/selección de pestañas y descarte de revisiones ortográficas obsoletas.
 
 La compilación mantiene una advertencia Vite por el bloque CodeMirror de 566,81 kB. No se oculta ni equivale a un error de compilación. No se ejecutaron Windows 11, una máquina limpia, todos los cortes de energía/discos llenos, NAS ni sesiones prolongadas de batería. Consulte RENDIMIENTO.md y PENDIENTES.md. La CI remota debe distinguirse de estas comprobaciones locales; su estado se consulta en GitHub.
+
+## Revisión r1 tras la primera ejecución remota
+
+GitHub Actions detectó que retirar una carpeta borrada usando una ruta con alias del directorio padre fallaba en el runner Windows. La comparación anterior solo quitaba prefijos y diferencias de mayúsculas; no resolvía el ancestro existente cuando la carpeta ya no existía. Se añadió una regresión determinista con una ruta equivalente que contiene ..: falló antes de corregir y pasó después. remove_root ahora resuelve el ancestro superviviente y recompone el sufijo ausente. No borra ninguna carpeta ni archivo: solo retira su asociación del explorador. Se repitió el núcleo completo: 58 pruebas aprobadas. La revisión compilada r1 conserva versión de producto 0.1.6; la etiqueta v0.1.6-r1 permite distinguirla del primer artefacto publicado. La medición de rendimiento y el recorrido nativo completo anteriores corresponden a la compilación inicial 0.1.6, cuyo editor y persistencia documental no cambiaron en r1.
+
