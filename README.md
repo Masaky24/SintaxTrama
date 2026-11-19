@@ -6,9 +6,9 @@ Editor local de Markdown y texto para Windows 10/11 x64. Tauri 2, Rust, React, T
 
 ## Descargar y utilizar
 
-Descarga el instalador en [Releases](https://github.com/Masaky24/SintaxTrama/releases). La versión actual es **0.1.6**. Requiere Microsoft Edge WebView2 preinstalado; Node y Rust no son necesarios para usar la aplicación instalada. El paquete es por usuario y no requiere administrador. El binario no está firmado.
+Descarga el instalador de Windows x64 en [Releases](https://github.com/Masaky24/SintaxTrama/releases) y sigue la [guía de instalación y actualización](docs/INSTALACION.md).
 
-La actualización desde Pliegra conserva la ubicación de instalación y los datos. El nombre visible es SintaxTrama; temporalmente se mantienen `pliegra.exe`, la carpeta de instalación `Pliegra` y el identificador `local.esteban.linde`. El instalador registra MD/TXT en Abrir con sin modificar la elección predeterminada de Windows. Puedes seleccionar SintaxTrama desde las aplicaciones predeterminadas del sistema.
+Desde **0.1.7**, el ejecutable de Windows se llama `SintaxTrama.exe`. El instalador conserva la ubicación de una instalación anterior, reutiliza los datos existentes y registra MD/TXT en Abrir con. Windows conserva la elección de aplicación predeterminada del usuario.
 
 ## Funciones
 

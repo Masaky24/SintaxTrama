@@ -1,7 +1,7 @@
 {
   "name": "pliegra",
   "private": true,
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Editor local de Markdown y texto para Windows, con vistas técnica y de escritura y recuperación protegida.",
   "license": "MIT",
   "author": "G9C_Studios",

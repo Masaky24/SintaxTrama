@@ -1,5 +1,10 @@
 # Registro de cambios
 
+## 0.1.7 — Nombre del proceso en Windows
+
+- Windows ejecuta `SintaxTrama.exe`. El instalador actualiza los accesos directos y las asociaciones anteriores sin cambiar la elección de aplicación predeterminada.
+- Incluye la corrección de rutas de carpetas borradas que pasó GitHub Actions después de la primera entrega 0.1.6.
+
 ## 0.1.6 — 2026-11-12 — SintaxTrama
 
 - Corregida reapertura de archivos renombrados/alias: una sola sesión conserva texto pendiente y recuperación con ruta actual. El guardado del cuerpo no rebaja revisiones de nota.
@@ -22,3 +27,9 @@ Las mediciones, resultados reales y límites están en docs/RESULTADOS.md, docs/
 ## 0.1.5 — antecedente
 
 Reparación de notas recientes durante recuperación, estado/hash tras guardado con metadatos fallidos, cierre de carpetas canonicalizadas y mitigación de construcción esbuild. Auditoría y proyecto originales preservados en Entregables del proyecto.
+
+### Revisión de entrega r1
+
+- Corregida retirada del explorador de una carpeta ya borrada cuando su ruta original usa un alias del ancestro (por ejemplo nombres cortos Windows). Regresión reproducida antes y 58 pruebas del núcleo aprobadas después.
+- La primera CI remota encontró este caso; los artefactos r1 se reconstruyen con la corrección. Versión visible 0.1.6, etiqueta v0.1.6-r1.
+
