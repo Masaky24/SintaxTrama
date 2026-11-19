@@ -1,11 +1,15 @@
 [package]
 name = "pliegra"
-version = "0.1.6"
+version = "0.1.7"
 edition = "2021"
 license = "MIT"
 authors = ["G9C_Studios"]
 description = "Editor local de Markdown y texto para Windows"
 repository = "https://github.com/Masaky24/SintaxTrama"
+
+[[bin]]
+name = "SintaxTrama"
+path = "src/main.rs"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
